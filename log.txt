@@ -1,0 +1,8 @@
+﻿2019-07-06,loic,div,100,aucun,1,
+2019-07-06,yann,digitec,200,bureau,1,
+2019-07-06,loic,digitec,200,bureau,1,
+2019-07-06,loic,digitec,200,bureau,1,
+2019-07-06,nascimo,ivatech,850,signalisation,1,
+2019-07-06,loic,geda,2000,location,1,
+2019-07-06,loic,digite,200,câbles,1,
+2019-07-06,yann,missilize,80,resa100,1
