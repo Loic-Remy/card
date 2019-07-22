@@ -282,7 +282,7 @@ $yann = new User("yann", $userList);
 $request = new Request;
 $card = new Card;
 
-if ($argv[1] === "historique") 
+if ($argv[1] === "h") 
 {
 	$request->Historic("log.txt");
 }
