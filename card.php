@@ -272,12 +272,38 @@ class User
 	}
 }
 
+class UserConnect
+{
+        private $file;
+        private $mode;
+        private $handle;
 
+        public function __construct($file, $mode)
+        {
+                $this->file = $file;
+                $this->mode = $mode;
+                $this->handle = fopen($file, $mode);
+        }
 
+        public function Mode($mode)
+        {
+                if ($mode != "") 
+                {
+                        fclose($this->handle);
+                        $this->mode = $mode;
+                        $this->handle = fopen($file, $mode);
+                }
+                return $this->mode;      
+        }
+
+        
+}
+$userCon = new UserConnect("users.txt","r");
 $userList = array();
-$loic = new User("loic", $userList);
-$nascimo = new User("nascimo", $userList);
-$yann = new User("yann", $userList);
+while (($data = fgetcsv($userCon,100)) != false):
+        {
+                new User($data[0], $userList);
+        }
 
 $request = new Request;
 $card = new Card;
@@ -285,6 +311,16 @@ $card = new Card;
 if ($argv[1] === "h") 
 {
 	$request->Historic("log.txt");
+}
+else if ($argv[1] === "u" && ctype_aplha($argv[2]))
+{
+        $userCon = new UserConnect("users.txt","r");₩
+}
+else if ($argv[1] === "u" && $argv[2] === NULL)
+{
+        foreach ($userList as $name) {
+               printf("%s", $name);
+        }
 }
 else
 {
