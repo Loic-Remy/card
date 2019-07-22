@@ -282,7 +282,8 @@ class UserConnect
         {
                 $this->file = $file;
                 $this->mode = $mode;
-                $this->handle = fopen($file, $mode);
+
+                $this->Handle();
         }
 
         public function Mode($mode)
@@ -291,16 +292,25 @@ class UserConnect
                 {
                         fclose($this->handle);
                         $this->mode = $mode;
-                        $this->handle = fopen($file, $mode);
+                        $this->Handle();
                 }
                 return $this->mode;      
+        }
+
+        public function Handle()
+        {
+               if ($this->handle == NULL) 
+               {
+                       $this->handle = fopen($this->file, $this->mode);
+               } 
+               return $this->handle;
         }
 
         
 }
 $userCon = new UserConnect("users.txt","r");
 $userList = array();
-while (($data = fgetcsv($userCon,100)) != false):
+while (($data = fgetcsv($userCon->handle,100)) != false):
         {
                 new User($data[0], $userList);
         }
@@ -308,19 +318,20 @@ while (($data = fgetcsv($userCon,100)) != false):
 $request = new Request;
 $card = new Card;
 
-if ($argv[1] === "h") 
-{
-	$request->Historic("log.txt");
-}
-else if ($argv[1] === "u" && ctype_aplha($argv[2]))
-{
-        $userCon = new UserConnect("users.txt","r");₩
-}
-else if ($argv[1] === "u" && $argv[2] === NULL)
-{
-        foreach ($userList as $name) {
-               printf("%s", $name);
+        if ($argv[1] === "h") 
+        {
+	        $request->Historic("log.txt");
         }
+        else if ($argv[1] === "u" && ctype_aplha($argv[2]))
+        {
+                $userCon = new UserConnect("users.txt","a");
+                fputcsv(userCon->Handle(),arrac($argv[2]));
+        }
+        else if ($argv[1] === "u" && $argv[2] === NULL)
+        {
+                foreach ($userList as $name) {
+                       printf("%s", $name);
+                }
 }
 else
 {
