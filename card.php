@@ -250,21 +250,31 @@ class Card
 class User
 {
 	private $name;
+        private $pwd;
 
-	public function __construct($name, &$list)
+	public function __construct($name, $pwd, q&$list)
 	{
 		$this->name = $name;
+                $this->Password($pwd);
 		$list[] = $this;
 	}
 
 	public function Name($name = "")
 	{
-		if ($name == "")
+		if ($name != "")
 		{
-			return $this->name;
+			$this->name = $name;
 		}
-		$this->name = $name;
+		return $this->name;
 	}
+
+        public function Password($pwd = "")
+       {
+               if ($pwd != "") {
+                        $this->pwd = password_hash($pwd, PASSWORD_DEFAULT);
+               }
+               return $this->pwd;
+        }
 
 	public function AddtoList(&$list)
 	{
@@ -304,16 +314,27 @@ class UserConnect
                        $this->handle = fopen($this->file, $this->mode);
                } 
                return $this->handle;
-        }
+        }     
+}
 
-        
+class Identify
+{
+        private $userName;
+        private $password;
+
+
 }
 $userCon = new UserConnect("users.txt","r");
 $userList = array();
 while (($data = fgetcsv($userCon->handle,100)) != false):
         {
-                new User($data[0], $userList);
+                new User($data[0], $data[1], $userList);
         }
+
+$userName = readline("Utilisateur :\t");
+$password = readline("Mot de passe :\t");
+
+
 
 $request = new Request;
 $card = new Card;
@@ -322,19 +343,21 @@ $card = new Card;
         {
 	        $request->Historic("log.txt");
         }
-        else if ($argv[1] === "u" && ctype_aplha($argv[2]))
+        else if ($argv[1] === "u" && ctype_aplha($argv[2]) && isset(argv[3])
         {
+                newUserArr = array($argv[2],$argv[3]);
                 $userCon = new UserConnect("users.txt","a");
-                fputcsv(userCon->Handle(),arrac($argv[2]));
+                fputcsv(userCon->Handle(),$newUserArr);
+                newUser =new User($argv[2], $argv[3], $userList);
         }
         else if ($argv[1] === "u" && $argv[2] === NULL)
         {
                 foreach ($userList as $name) {
                        printf("%s", $name);
                 }
-}
-else
-{
+        }
+        else
+        {
 
 $request->Prompt();
 $request->Check($userList);
